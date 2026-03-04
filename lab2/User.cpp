@@ -13,6 +13,6 @@ User::~User() {
     cout << "User destroyed\n";
 }
 
-void User::Print() const {
+void User::display() const {
     cout << "Name: " << name << ", Course: " << course << ", Group: " << group << endl;
 }

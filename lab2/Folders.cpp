@@ -13,6 +13,6 @@ Folders::~Folders() {
     cout << "Folder destroyed\n";
 }
 
-void Folders::Print() const {
+void Folders::display() const {
     cout << "Name: " << name << ", Date: " << date << ", User: " << user << endl;
 }

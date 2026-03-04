@@ -13,6 +13,6 @@ Files::~Files() {
     cout << "Files destroyed\n";
 }
 
-void Files::Print() const {
+void Files::display() const {
     cout << "Name: " << name << ", Folder: " << folder << ", User: " << user << endl;
 }
