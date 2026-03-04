@@ -1,6 +1,7 @@
 #ifndef FILES_H
 #define FILES_H
 #include <string>
+using namespace std;
 class Files {
 private:
 	string name;

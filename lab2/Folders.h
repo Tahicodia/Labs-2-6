@@ -1,6 +1,7 @@
 #ifndef FOLDERS_H
 #define FOLDERS_H
 #include <string>
+using namespace std;
 class Folders {
 	private:
 		string name;
