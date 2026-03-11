@@ -1,6 +1,7 @@
 #include "Folders.h"
 #include "Files.h"
 #include "User.h"
+using namespace std;
 
 int main() {
 	Folders f1;
@@ -11,6 +12,10 @@ int main() {
 
 	User u1;
 	User u2("Igor Aheienko", "Program Ingeneering", "143a");
+
+	User u3 = u2;
+	User u4 = u1 + u2;
+	cout << User::getCount() << endl;
 
 	f1.display();
 	f2.display();
