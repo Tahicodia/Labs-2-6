@@ -1,52 +1,54 @@
 #include "User.h"
-#include <iostream>
+#include <utility>
 
-using namespace std;
 int User::userCount = 0;
 
+// === User ===
+User::User() : Person("Noname"), course("None"), group("None") { userCount++; }
 
+// Виправлений конструктор на 3 аргументи
 User::User(string name, string course, string group)
-    : name(name), course(course), group(group) {
+    : Person(name), course(course), group(group) {
+    userCount++;
 }
 
-User::User() : User("Damir Rozhman", "Program Ingeneering", "143a") {}
-
-User::User(const User& other)
-    : name(other.name), course(other.course), group(other.group) {
-    cout << "User copied\n";
+User::User(const User& other) : Person(other), course(other.course), group(other.group) {
+    userCount++;
 }
 
-User::User(User&& other)
-    : name(move(other.name)), course(other.course), group(other.group) {
-    cout << "User moved\n";
+User::User(User&& other) noexcept
+    : Person(move(other)), course(move(other.course)), group(move(other.group)) {
 }
 
-void User::setGroup(string group) {
-    this->group = group;
+User& User::operator=(const User& other) {
+    if (this != &other) {
+        Person::operator=(other);
+        this->course = other.course;
+        this->group = other.group;
+    }
+    return *this;
 }
 
-int User::getCount() {
-    return userCount;
+User::~User() { userCount--; }
+
+void User::display() const {
+    Person::display();
+    cout << ", Course: " << course << ", Group: " << group;
 }
 
 User User::operator+(const User& other) {
-    return User(name + "&" + other.name, course, group);
+    return User(this->name + " & " + other.name, this->course, this->group);
 }
 
-ostream& operator<<(ostream& os, const User& u) {
-    os << u.name << " " << u.course << " " << u.group;
-    return os;
+int User::getCount() { return userCount; }
+
+// === Admin ===
+Admin::Admin(string name, string course, string group, string role)
+    : User(name, course, group), role(role) {
 }
 
-istream& operator>>(istream& is, User& u) {
-    is >> u.name >> u.course >> u.group;
-    return is;
-}
-
-User::~User() {
-    cout << "User destroyed\n";
-}
-
-void User::display() const {
-    cout << "Name: " << name << ", Course: " << course << ", Group: " << group << endl;
+void Admin::display() const {
+    cout << "[ADMIN] ";
+    User::display();
+    cout << ", Role: " << role << endl;
 }
