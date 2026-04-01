@@ -26,7 +26,7 @@ Folders::Folders(Folders&& other) noexcept
     user(move(other.user)) {
 
     this->files = other.files; // Просто копіюємо адресу вказівника
-    other.files = nullptr;     // ВАЖЛИВО: зануляємо у старого об'єкта
+	other.files = nullptr;     // зануляєм старий об'єкт, щоб не видаляти його в деструкторі
 
     cout << "Folder moved" << endl;
 }
@@ -35,9 +35,10 @@ Folders& Folders::operator=(const Folders& other) {
     if (this != &other) {
         delete this->files; // Очищення старої пам'яті
 
-        this->name = other.name;
-        this->date = other.date;
         this->user = other.user;
+        this->date = other.date;
+        this->name = other.name;
+        
 
         if (other.files) this->files = new Files(*other.files);
         else this->files = nullptr;
