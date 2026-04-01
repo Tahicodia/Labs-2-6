@@ -3,10 +3,8 @@
 
 int User::userCount = 0;
 
-// === User ===
 User::User() : Person("Noname"), course("None"), group("None") { userCount++; }
 
-// Виправлений конструктор на 3 аргументи
 User::User(string name, string course, string group)
     : Person(name), course(course), group(group) {
     userCount++;
@@ -42,7 +40,6 @@ User User::operator+(const User& other) {
 
 int User::getCount() { return userCount; }
 
-// === Admin ===
 Admin::Admin(string name, string course, string group, string role)
     : User(name, course, group), role(role) {
 }

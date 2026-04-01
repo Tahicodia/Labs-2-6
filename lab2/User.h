@@ -6,18 +6,16 @@
 
 using namespace std;
 
-// Рівень 1
 class Person {
 protected:
     string name;
 public:
     Person() : name("Unknown") {}
     Person(string name) : name(name) {}
-    virtual ~Person() {}
+    virtual ~Person() {} //віртуал це дозвіл від батьківського класу на зміну поведінки в дочірньому класі
     virtual void display() const { cout << "Name: " << name; }
 };
 
-// Рівень 2 (Is-A Person)
 class User : public Person {
 protected:
     string course;
@@ -26,25 +24,21 @@ protected:
 
 public:
     User();
-    // Конструктор на 3 параметри: (ім'я, курс, група)
     User(string name, string course, string group);
-
     User(const User& other);
-    User(User&& other) noexcept;
+    User(User&& other) noexcept; //ноексепт - це гарантія, що воно не бахне
     User& operator=(const User& other);
     virtual ~User();
 
-    void display() const override;
+	void display() const override; // оверрайд це підтвердження дозволу на зміну поведінки в дочірньому класі
     User operator+(const User& other);
     static int getCount();
 };
 
-// Рівень 3 (Is-A User)
 class Admin : public User {
 private:
     string role;
 public:
-    // Конструктор на 4 параметри: (ім'я, курс, група, роль)
     Admin(string name, string course, string group, string role);
     void display() const override;
 };
