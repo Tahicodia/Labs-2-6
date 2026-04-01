@@ -18,7 +18,7 @@ Files::Files(Files&& other) noexcept
     : name(move(other.name)),
     extension(move(other.extension)),
     size(other.size) {
-    other.size = 0; // "Зануляємо" старий об'єкт
+    other.size = 0;
     cout << "File moved" << endl;
 }
 
