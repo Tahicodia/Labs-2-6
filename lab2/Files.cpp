@@ -1,18 +1,49 @@
 #include "Files.h"
 #include <iostream>
-
+#include <utility>
 using namespace std;
 
-Files::Files(string name, string folder, string user)
-    : name(name), folder(folder), user(user) {
+Files::Files() : name("new_file"), extension(".txt"), size(0) {}
+
+Files::Files(string name, string extension, int size)
+    : name(name), extension(extension), size(size) {
 }
 
-Files::Files() : Files("Homework_OOP", "Homeworks", "Admin") {}
+Files::Files(const Files& other)
+    : name(other.name), extension(other.extension), size(other.size) {
+    cout << "File copied" << endl;
+}
+
+Files::Files(Files&& other) noexcept
+    : name(move(other.name)),
+    extension(move(other.extension)),
+    size(other.size) {
+    other.size = 0; // "Зануляємо" старий об'єкт
+    cout << "File moved" << endl;
+}
+
+Files& Files::operator=(const Files& other) {
+    if (this != &other) {
+        this->name = other.name;
+        this->extension = other.extension;
+        this->size = other.size;
+    }
+    return *this;
+}
 
 Files::~Files() {
-    cout << "Files destroyed\n";
+    cout << "File destroyed" << endl;
 }
 
 void Files::display() const {
-    cout << "Name: " << name << ", Folder: " << folder << ", User: " << user << endl;
+    cout << name << extension << " (" << size << " KB)";
+}
+
+MediaFile::MediaFile(string name, string extension, int size, string duration)
+    : Files(name, extension, size), duration(duration) {
+}
+
+void MediaFile::display() const {
+    Files::display();
+    cout << " [Duration: " << duration << "]" << endl;
 }
