@@ -14,6 +14,7 @@ public:
     Person(string name) : name(name) {}
     virtual ~Person() {} //віртуал це дозвіл від батьківського класу на зміну поведінки в дочірньому класі
     virtual void display() const { cout << "Name: " << name; }
+    void testStatic() const { cout << "Base (Person)" << endl; }
 };
 
 class User : public Person {
@@ -29,8 +30,9 @@ public:
     User(User&& other) noexcept; //ноексепт - це гарантія, що воно не бахне
     User& operator=(const User& other);
     virtual ~User();
-
+    void testStatic() const { cout << "Derived (User)" << endl; }
 	void display() const override; // оверрайд це підтвердження дозволу на зміну поведінки в дочірньому класі
+
     User operator+(const User& other);
     static int getCount();
 };
