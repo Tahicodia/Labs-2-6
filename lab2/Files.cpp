@@ -43,7 +43,37 @@ MediaFile::MediaFile(string name, string extension, int size, string duration)
     : Files(name, extension, size), duration(duration) {
 }
 
+MediaFile::MediaFile() : Files(), duration("00:00") {}
+
 void MediaFile::display() const {
     Files::display();
     cout << " [Duration: " << duration << "]" << endl;
+}
+
+void MediaFile::info() const {
+    cout << "Duration: " << duration << endl;
+}
+
+Files* MediaFile::clone() const {
+    return new MediaFile(*this);
+}
+
+// TextFile implementation
+TextFile::TextFile() : Files(), encoding("UTF-8") {}
+
+TextFile::TextFile(string name, string extension, int size, string encoding)
+    : Files(name, extension, size), encoding(encoding) {
+}
+
+void TextFile::display() const {
+    Files::display();
+    cout << " [Encoding: " << encoding << "]" << endl;
+}
+
+void TextFile::info() const {
+    cout << "Encoding: " << encoding << endl;
+}
+
+Files* TextFile::clone() const {
+    return new TextFile(*this);
 }
