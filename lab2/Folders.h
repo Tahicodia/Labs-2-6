@@ -1,10 +1,10 @@
-#ifndef FOLDERS_H
-#define FOLDERS_H
+#ifndef FOLDER_H
+#define FOLDER_H
 #include <string>
 #include "Files.h"
 using namespace std;
 
-class Folders {
+class Folder {
 private:
     string name;
     string date;
@@ -13,19 +13,19 @@ private:
     Files* files;
 
 public:
-    Folders();
-    Folders(string name, string date, string user);
-    Folders(string name, string date, string user, Files* files);
+    Folder();
+    Folder(string name, string date, string user);
+    Folder(string name, string date, string user, Files* files);
 
-    Folders(const Folders& other);
-    Folders(Folders&& other) noexcept;
-    Folders& operator=(const Folders& other);
+    Folder(const Folder& other);
+    Folder(Folder&& other) noexcept;
+    Folder& operator=(const Folder& other);
 
-    virtual ~Folders();
+    virtual ~Folder();
     virtual void display() const;
 };
 
-class ZipFolder : public Folders {
+class ZipFolder : public Folder {
 private:
     double compressionRatio;
 

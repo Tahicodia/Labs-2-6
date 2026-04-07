@@ -1,57 +1,61 @@
 #include "Folders.h"
 #include <iostream>
+#include <utility>
 using namespace std;
 
-Folders::Folders() : name("Homeworks"), date("04.03.2026"), user("Admin"), files(nullptr) {}
+// --- Конструктори Folder ---
 
-Folders::Folders(string name, string date, string user)
+Folder::Folder() : name("Homeworks"), date("04.03.2026"), user("Admin"), files(nullptr) {}
+
+Folder::Folder(string name, string date, string user)
     : name(name), date(date), user(user), files(nullptr) {
 }
 
-Folders::Folders(string name, string date, string user, Files* files)
+Folder::Folder(string name, string date, string user, Files* files)
     : name(name), date(date), user(user) {
-    if (files) this->files = new Files(*files); // Глибоке копіювання
+    if (files) this->files = files->clone();
     else this->files = nullptr;
 }
 
-Folders::Folders(const Folders& other)
+Folder::Folder(const Folder& other)
     : name(other.name), date(other.date), user(other.user) {
-    if (other.files) this->files = new Files(*other.files);
+    if (other.files) this->files = other.files->clone();
     else this->files = nullptr;
 }
 
-Folders::Folders(Folders&& other) noexcept
+Folder::Folder(Folder&& other) noexcept
     : name(move(other.name)),
     date(move(other.date)),
     user(move(other.user)) {
-
-    this->files = other.files; // Просто копіюємо адресу вказівника
-	other.files = nullptr;     // зануляєм старий об'єкт, щоб не видаляти його в деструкторі
-
+    this->files = other.files;
+    other.files = nullptr;
     cout << "Folder moved" << endl;
 }
 
-Folders& Folders::operator=(const Folders& other) {
-    if (this != &other) {
-        delete this->files; // Очищення старої пам'яті
+// --- Оператори та деструктор ---
 
+Folder& Folder::operator=(const Folder& other) {
+    if (this != &other) {
+        delete this->files;
         this->user = other.user;
         this->date = other.date;
         this->name = other.name;
-        
-
-        if (other.files) this->files = new Files(*other.files);
+        if (other.files) this->files = other.files->clone();
         else this->files = nullptr;
     }
     return *this;
 }
 
-Folders::~Folders() {
+Folder::~Folder() {
     delete files;
     cout << "Folder destroyed" << endl;
 }
 
-void Folders::display() const {
+// --- МЕТОДИ ВИВОДУ (Оновлені) ---
+
+void Folder::display() const {
+    // Додаємо заголовок, як на скріншоті
+    cout << "[Folder]\n";
     cout << "Name: " << name << ", Date: " << date << ", User: " << user << endl;
     if (files) {
         cout << "  File: ";
@@ -61,10 +65,17 @@ void Folders::display() const {
 
 ZipFolder::ZipFolder(string name, string date, string user,
     Files* files, double compressionRatio)
-    : Folders(name, date, user, files), compressionRatio(compressionRatio) {
+    : Folder(name, date, user, files), compressionRatio(compressionRatio) {
 }
 
 void ZipFolder::display() const {
-    Folders::display(); // Виклик методу батька
+    // Додаємо заголовок для архіву
+    cout << "[Zip Folder]\n";
+
+    // Викликаємо базовий метод, щоб вивести загальні дані (name, date, user)
+    // Якщо ви не хочете, щоб Folder::display() дублював заголовок [Folder] всередині ZipFolder,
+    // можна вивести поля вручну або створити допоміжний метод.
+    Folder::display();
+
     cout << "  Compression: " << compressionRatio << "x" << endl;
 }
