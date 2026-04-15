@@ -1,6 +1,7 @@
 #ifndef FOLDER_H
 #define FOLDER_H
 #include <string>
+#include <fstream>
 #include "Files.h"
 using namespace std;
 
@@ -23,6 +24,10 @@ public:
 
     virtual ~Folder();
     virtual void display() const;
+
+    //  ДОДАНО 
+    virtual void saveToFile(ofstream& out) const;
+    virtual void loadFromFile(ifstream& in);
 };
 
 class ZipFolder : public Folder {
@@ -34,5 +39,9 @@ public:
         Files* files, double compressionRatio);
 
     void display() const override;
+
+    //  ДОДАНО 
+    void saveToFile(ofstream& out) const override;
 };
+
 #endif
