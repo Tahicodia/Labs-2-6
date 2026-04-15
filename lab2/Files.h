@@ -2,11 +2,13 @@
 #define FILES_H
 
 #include <string>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
 class Files {
-protected: 
+protected:
     string name;
     string extension;
     int size;
@@ -23,33 +25,46 @@ public:
 
     virtual void display() const;
 
-	virtual void info() const = 0; // Чисто віртуальна функція для отримання додаткової інформації про файл
-    virtual Files* clone() const = 0; // Поліморфне клонування
+    virtual void info() const = 0;
+    virtual Files* clone() const = 0;
+
+    //  ДОДАНО 
+    virtual void saveToFile(ofstream& out) const;
+    virtual void loadFromFile(ifstream& in);
 };
 
-class MediaFile final : public Files { // final - це заборона на наслідування від цього класу
+class MediaFile final : public Files {
 private:
     string duration;
 
 public:
     MediaFile();
     MediaFile(string name, string extension, int size, string duration);
+
     void display() const override;
-    void info() const override; // Реалізація чисто віртуальної функції
+    void info() const override;
     Files* clone() const override;
+
+    //  ДОДАНО 
+    void saveToFile(ofstream& out) const override;
+    void loadFromFile(ifstream& in) override;
 };
 
-// Додатковий клас, що реалізує інтерфейс Files (щоб показати інтерфейс на різних класах)
 class TextFile : public Files {
 private:
-    string encoding;
+    string encoding; 
 
 public:
     TextFile();
     TextFile(string name, string extension, int size, string encoding);
+
     void display() const override;
     void info() const override;
     Files* clone() const override;
+
+    //  ДОДАНО
+    void saveToFile(ofstream& out) const override;
+    void loadFromFile(ifstream& in) override;
 };
 
 #endif
